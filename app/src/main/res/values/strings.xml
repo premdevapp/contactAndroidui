@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">ContactManagerui</string>
     <string name="db_drop">DROP TABLE IF EXISTS</string>
+    <string name="nameGoe">Name Goes Here</string>
+    <string name="phone">Phone Number goes Here</string>
 </resources>

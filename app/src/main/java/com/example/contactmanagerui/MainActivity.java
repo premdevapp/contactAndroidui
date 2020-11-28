@@ -8,8 +8,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.example.contactmanagerui.adapter.RecyclerViewAdapter;
 import com.example.contactmanagerui.data.DatabaseHandler;
 import com.example.contactmanagerui.model.Contact;
 
@@ -17,8 +20,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private ListView list_view;
-    private ArrayList<String> contactArrayList;
+
+    private RecyclerView recyclerView;
+
+    private RecyclerViewAdapter recyclerViewAdapter;
+
+    private ArrayList<Contact> contactArrayList;
 
     private ArrayAdapter<String> arrayAdapter;
 
@@ -28,28 +35,31 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        list_view = findViewById(R.id.listView);
+        recyclerView = findViewById(R.id.recyclerView);
+
+        recyclerView.setHasFixedSize(true);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         contactArrayList = new ArrayList<>();
 
         DatabaseHandler db = new DatabaseHandler(MainActivity.this);
 
-       /* db.addContact(new Contact("Premnath", "6382709971"));
-        db.addContact(new Contact("Priyadharsini", "9791793785"));
-        db.addContact(new Contact("Pichaimuhu", "9791793785"));
-        db.addContact(new Contact("Helena", "6382709971"));
-        db.addContact(new Contact("Praseetha", "6382709971"));
-        db.addContact(new Contact("Menackshi gurupriya", "6382709971"));
-        db.addContact(new Contact("Vijayalakshmi", "6382709971"));
-        db.addContact(new Contact("Haretha", "6382709971"));
-*/
         List<Contact> contactList = db.getAllContacts();
 
         for (Contact contact: contactList){
             Log.d("MainActivity", "onCreate: "+ contact.getName());
-            contactArrayList.add(contact.getName());
+            contactArrayList.add(contact);
         }
-        // create ArrayAdapter
+
+        // Adapter
+
+        recyclerViewAdapter = new RecyclerViewAdapter(MainActivity.this, contactArrayList);
+
+        recyclerView.setAdapter(recyclerViewAdapter);
+
+
+
 
     }
 
